@@ -78,7 +78,8 @@ export default {
       })
     },
     handleSubmit () {
-    // Add logic to set loginFlag to true
+      // Add logic to set loginFlag to true
+      this.$store.dispatch('SetLoginFlag', true)
     }
   }
 }
