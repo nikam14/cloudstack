@@ -3231,7 +3231,7 @@ public class AccountManagerImpl extends ManagerBase implements AccountManager, M
             if (userVO == null) {
                 throw new InvalidParameterValueException("Unable to find user= " + userVO.getUsername() + " in domain id = " + caller.getDomainId());
             }
-            owner = _accountService.getActiveAccountById(userId);
+            owner = _accountService.getActiveAccountById(userVO.getAccountId());
         } else {
             userId = CallContext.current().getCallingUserId();
             userVO = _userDao.findById(userId);
