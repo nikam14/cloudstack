@@ -2386,7 +2386,10 @@ public class AccountManagerImpl extends ManagerBase implements AccountManager, M
         if (userUUID == null) {
             userUUID = UUID.randomUUID().toString();
         }
-        UserVO user = _userDao.persist(new UserVO(accountId, userName, encodedPassword, firstName, lastName, email, timezone, userUUID, source));
+
+        UserVO userVO = new UserVO(accountId, userName, encodedPassword, firstName, lastName, email, timezone, userUUID, source);
+        userVO.setTwoFactorAuthenticationEnabled(mandateUserTwoFactorAuthentication.valueIn(getAccount(accountId).getDomainId()));
+        UserVO user = _userDao.persist(userVO);
         CallContext.current().putContextParameter(User.class, user.getUuid());
         return user;
     }
@@ -3143,7 +3146,7 @@ public class AccountManagerImpl extends ManagerBase implements AccountManager, M
 
     @Override
     public ConfigKey<?>[] getConfigKeys() {
-        return new ConfigKey<?>[] {UseSecretKeyInResponse, enable2FA, userTwoFactorAuthenticationProviderPlugin};
+        return new ConfigKey<?>[] {UseSecretKeyInResponse, enableUserTwoFactorAuthentication, userTwoFactorAuthenticationProviderPlugin};
     }
 
     public List<UserTwoFactorAuthenticator> getUserTwoFactorAuthenticationProviders() {
@@ -3204,7 +3207,7 @@ public class AccountManagerImpl extends ManagerBase implements AccountManager, M
             UserAccountVO userAccount = _userAccountDao.findById(userId);
             UserVO userVO = _userDao.findById(userId);
 
-            if (!enable2FA.valueIn(userAccount.getDomainId())) {
+            if (!enableUserTwoFactorAuthentication.valueIn(userAccount.getDomainId())) {
                 throw new CloudRuntimeException("2FA is not enabled for this domain or at global level");
             }
 
