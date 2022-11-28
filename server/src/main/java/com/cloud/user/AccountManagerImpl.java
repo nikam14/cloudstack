@@ -1391,6 +1391,10 @@ public class AccountManagerImpl extends ManagerBase implements AccountManager, M
         if (StringUtils.isNotBlank(timezone)) {
             user.setTimezone(timezone);
         }
+        Boolean is2FAenabled = updateUserCmd.getEnable2FA();
+        if (is2FAenabled != null && is2FAenabled) {
+            user.setTwoFactorAuthenticationEnabled(true);
+        }
         _userDao.update(user.getId(), user);
         return _userAccountDao.findById(user.getId());
     }
