@@ -178,6 +178,9 @@
       <span v-if="$route.name === 'hypervisorcapability'">
         <router-link :to="{ path: $route.path + '/' + record.id }">{{ text }}</router-link>
       </span>
+      <span v-else-if="$route.name === 'guestos'">
+        <router-link :to="{ path: $route.path + '/' + record.id }">{{ text }}</router-link>
+      </span>
       <span v-else-if="$route.name === 'guestoshypervisormapping'">
         <router-link :to="{ path: $route.path + '/' + record.id }">{{ text }}</router-link>
       </span>

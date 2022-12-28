@@ -56,7 +56,7 @@
                     :value="$route.query.filter || (projectView && $route.name === 'vm' ||
                       ['Admin', 'DomainAdmin'].includes($store.getters.userInfo.roletype) && ['vm', 'iso', 'template'].includes($route.name)
                       ? 'all' : ['publicip'].includes($route.name)
-                        ? 'allocated' : ['guestnetwork', 'guestvlans', 'guestoshypervisormapping'].includes($route.name) ? 'all' : 'self')"
+                        ? 'allocated' : ['guestnetwork', 'guestvlans'].includes($route.name) ? 'all' : 'self')"
                     style="min-width: 120px; margin-left: 10px"
                     @change="changeFilter"
                     showSearch
@@ -1595,6 +1595,8 @@ export default {
               query.name = value
             } else if (this.$route.name === 'guestoshypervisormapping') {
               query.hypervisor = value
+            } else if (this.$route.name === 'guestos') {
+              query.description = value
             } else {
               query.keyword = value
             }
